@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -13,6 +13,8 @@
     <Compile Remove="Class5.cs" />
     <Compile Remove="Class6.cs" />
     <Compile Remove="Class7.cs" />
+    <Compile Remove="Class8.cs" />
+    <Compile Remove="Class9.cs" />
     <Compile Remove="Program.cs" />
   </ItemGroup>
 

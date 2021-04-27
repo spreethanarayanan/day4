@@ -4,110 +4,152 @@ using System.Text;
 
 namespace day4
 {
-    class Program
+
+
+    class Inventory
     {
-        class Inventory
+        public string ProductName { get; set; }
+        public int ProductQuantity { get; set; }
+        public int TotalQuantity { get; set; }
+        public double ProductCode { get; set; }
+        public double Price { get; set; }
+        public void Add()
         {
-            public int code1 = 1;
-            public int code2 = 2;
-            public string product1 = "mangoes";
-            public string product2 = "apples";
-            public int product1Quan = 200;
-            public int product2Quan = 200;
+            Console.WriteLine("Enter the productCode");
+            ProductCode = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Enter the productName");
+            ProductName = Console.ReadLine();
+            Console.WriteLine("Enter the Quantity");
+            ProductQuantity = Convert.ToInt32(Console.ReadLine());
+        }
+        public void Buyer()
+        {
+            Console.WriteLine("Enter Product Name :");
+            ProductName = Console.ReadLine();
+            Console.WriteLine("Enter total Quantity :");
+            TotalQuantity = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Enter Product Quantity :");
+            ProductQuantity = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Enter Product Price :");
+            Price = Convert.ToDouble(Console.ReadLine());
+
+
         }
 
-        class Customer : Inventory
+    }
+
+    class Customer : Inventory
+    {
+
+
+        public void PrintInvoice(Customer[] products)
         {
-            public void Buyer()
+            Console.WriteLine("-------------------Invoice------------------------");
+            Console.WriteLine("S.No \t Product Name \t Quantity \t Product Code ");
+            int index = 1;
+            foreach (var item in products)
             {
-                Console.WriteLine("Enter the product code");
-                int n = Convert.ToInt32(Console.ReadLine());
-                if (n == 1)
-                {
-                    Console.WriteLine("The selected Product is \t" + product1);
-                    Console.WriteLine("Enter the Quantity");
-                    int quan = Convert.ToInt32(Console.ReadLine());
-                    if (quan <= product1Quan)
-                    {
-                        product1Quan -= quan;
-                        Console.WriteLine("The no of pieces left is\t " + product1Quan);
-                    }
-                    else
-                    {
-                        Console.WriteLine("Quantity Not Available.");
-                    }
+                Console.Write(index);
+                Console.Write("\t");
+                Console.Write(item.ProductName);
+                Console.Write("\t\t");
+                Console.Write(item.ProductQuantity);
+                Console.Write("\t\t");
+                Console.Write(item.ProductCode);
 
-                }
-                else if (n == 2)
-                {
-                    Console.WriteLine("The selected Product is \t" + product2);
-                    Console.WriteLine("Enter the Quantity");
-                    int quan = Convert.ToInt32(Console.ReadLine());
-                    if (quan <= product2Quan)
-                    {
-                        product2Quan -= quan;
-                        Console.WriteLine("The no of pieces left is\t " + product2Quan);
-                    }
-                    else
-                    {
-                        Console.WriteLine("Quantity Not Available.");
-                    }
-                }
-                else
-                {
-                    Console.WriteLine("Product Not Available");
-                }
-
+                Console.Write("\n");
+                index = index + 1;
             }
-            public void Wholeseller()
+        }
+
+        class InvoiceBuyer : Inventory
+        {
+            string CustomerName { get; set; }
+            readonly string InvoiceNumber;
+            public void PrintInvoice1(InvoiceBuyer[] buys)
             {
-                Console.WriteLine("Enter the product code");
-                int n = Convert.ToInt32(Console.ReadLine());
-                if (n == 1)
+                Console.WriteLine("-------------------Invoice------------------------");
+                Console.WriteLine("S.No \t Product Name \t Quantity \t Price \t Total Price  \t Remaining quantity");
+                int index = 1;
+                foreach (var item in buys)
                 {
-                    Console.WriteLine("The selected Product is \t" + product1);
-                    Console.WriteLine("Enter the Quantity");
-                    int quan = Convert.ToInt32(Console.ReadLine());
-                    product1Quan += quan;
-                    Console.WriteLine("The no of pieces left is\t " + product1Quan);
-
-
-                }
-                else if (n == 2)
-                {
-                    Console.WriteLine("The selected Product is \t" + product2);
-                    Console.WriteLine("Enter the Quantity");
-                    int quan = Convert.ToInt32(Console.ReadLine());
-                    product2Quan += quan;
-                    Console.WriteLine("The no of pieces left is\t " + product2Quan);
-
-                }
-                else
-                {
-                    Console.WriteLine("Product Not Available");
+                    Console.Write(index);
+                    Console.Write("\t");
+                    Console.Write(item.ProductName);
+                    Console.Write("\t\t");
+                    Console.Write(item.ProductQuantity);
+                    Console.Write("\t\t");
+                    Console.Write(item.Price);
+                    Console.Write("\t\t");
+                    Console.Write(item.Price * item.ProductQuantity);
+                    Console.Write("\t\t");
+                    Console.Write(item.TotalQuantity - item.ProductQuantity);
+                    Console.Write("\n");
+                    index = index + 1;
                 }
             }
         }
+
+
         static void Main(string[] args)
         {
-            Console.WriteLine("Enter whether u are a Buyer Or Wholeseller");
+            Console.WriteLine("Enter whether u need to Add a product Or  Buy Product Or exit");
             String c = Console.ReadLine();
-            if (c.Equals("Buyer"))
+            if (c.Equals("Add a product"))
             {
-                Customer buyer = new Customer();
-                buyer.Buyer();
+                Customer[] products = new Customer[2];
+
+                for (int i = 0; i < products.Length; i++)
+                {
+                    Customer add = new Customer();
+                    add.Add();
+
+                    products[i] = add;
+
+                }
+                Customer invoice = new Customer();
+                invoice.PrintInvoice(products);
+
             }
-            else if (c.Equals("Wholeseller"))
+            else if (c.Equals("Buy"))
             {
-                Customer wholeseller = new Customer();
-                wholeseller.Wholeseller();
+                InvoiceBuyer[] buys = new InvoiceBuyer[2];
+
+                for (int i = 0; i < buys.Length; i++)
+                {
+                    InvoiceBuyer buy = new InvoiceBuyer();
+                    buy.Buyer();
+
+                    buys[i] = buy;
+
+                }
+                InvoiceBuyer invoice1 = new InvoiceBuyer();
+                invoice1.PrintInvoice1(buys);
             }
             else
             {
-                Console.Write("Invalid Entry");
-            }
+                Customer obj = new Customer();
+                int exitkey = 1;
+                while (exitkey > 0)
+                {
+                    Console.WriteLine("You want to exit ? Y/N");
+                    string choice = Console.ReadLine();
+                    if (choice.ToLower() == "y")
+                    {
+                        break;
+                    }
 
+                }
+
+            }
             Console.ReadLine();
         }
     }
 }
+
+
+
+
+
+
+
